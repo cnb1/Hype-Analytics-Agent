@@ -85,7 +85,11 @@ Keep your analysis grounded in the actual data returned. Be specific with prices
                 fn = TOOL_FUNCTIONS[fn_name]
                 result = fn(**fn_args)
 
-                print(f"[Tool Result] {len(json.loads(result).get('candles', []))} candles returned\n")
+                parsed = json.loads(result)
+                if "candles" in parsed:
+                    print(f"[Tool Result] {len(parsed['candles'])} candles returned\n")
+                else:
+                    print(f"[Tool Result] {parsed}\n")
 
                 messages.append({
                     "role": "tool",
@@ -126,7 +130,8 @@ if __name__ == "__main__":
     prompt = args.prompt or (
         f"Fetch the last {args.days} days of HYPE {args.interval} candle data. "
         "What was the recent peak price and when did it occur? "
-        "How far is the current price from that peak?"
+        "How far is the current price from that peak? "
+        "Also calculate the MFI-10 and tell me the signal (BUY, SELL, or NEUTRAL)."
     )
 
     run_agent(prompt, lookback_days=args.days, interval=args.interval)
