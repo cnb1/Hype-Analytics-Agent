@@ -1,11 +1,13 @@
 import os
 import json
 import time
+from pathlib import Path
+
 import requests
 from dotenv import load_dotenv
 from openai import OpenAI
 
-load_dotenv()
+load_dotenv(Path(__file__).resolve().parent.parent / "resources" / ".env")
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
