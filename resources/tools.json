@@ -1,0 +1,25 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "fetch_hype_candles",
+      "description": "Fetch HYPE candlestick (OHLCV) data from Hyperliquid. Use this to get price history for analysis.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "lookback_days": {
+            "type": "integer",
+            "description": "Number of days of historical data to fetch. Default 5.",
+            "default": 5
+          },
+          "interval": {
+            "type": "string",
+            "description": "Candle interval. Options: 1m, 5m, 15m, 30m, 1h, 4h, 1d. Default 4h.",
+            "default": "4h"
+          }
+        },
+        "required": []
+      }
+    }
+  }
+]
