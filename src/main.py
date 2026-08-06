@@ -19,6 +19,7 @@ HYPERLIQUID_URL = "https://api.hyperliquid.xyz/info"
 DEFAULT_LOOKBACK_DAYS = 5
 DEFAULT_INTERVAL = "4h"
 
+
 # ---------- Tool: Fetch HYPE candle data from Hyperliquid ----------
 
 def fetch_hype_candles(lookback_days: int = DEFAULT_LOOKBACK_DAYS,
@@ -136,6 +137,7 @@ tool_functions = {
     "fetch_hype_candles": fetch_hype_candles,
 }
 
+
 # ---------- Agent loop ----------
 
 def run_agent(user_message: str,
@@ -145,36 +147,36 @@ def run_agent(user_message: str,
 
     system_prompt = f"""You are a crypto market analyst specializing in HYPE, a token on the Hyperliquid exchange.
 
-You have access to a tool that fetches real candlestick (OHLCV) data for HYPE from Hyperliquid's API.
-
-When asked about HYPE's price action, market structure, or any analysis:
-1. Use the fetch_hype_candles tool to pull the data you need
-2. Analyze the returned candlestick data
-3. Provide a clear, concise answer
-
-Unless the user explicitly asks for a different window, call the tool with
-lookback_days={lookback_days} and interval="{interval}".
-
-The tool result contains a "summary" object with the period high/low, the latest
-close, and percentage moves already computed exactly. ALWAYS take these figures
-from "summary" — never re-derive them by scanning the "candles" array yourself.
-Use "candles" only for describing shape and sequence (trend, consolidation,
-where volume clustered).
-
-Note that a period high or low is the extreme of the intraday wick (the "high"
-and "low" fields), not a candle's closing price. Say which you mean if you cite
-a close instead.
-
-Keep your analysis grounded in the actual data returned. Be specific with prices, percentages, and timeframes."""
+        You have access to a tool that fetches real candlestick (OHLCV) data for HYPE from Hyperliquid's API.
+        
+        When asked about HYPE's price action, market structure, or any analysis:
+        1. Use the fetch_hype_candles tool to pull the data you need
+        2. Analyze the returned candlestick data
+        3. Provide a clear, concise answer
+        
+        Unless the user explicitly asks for a different window, call the tool with
+        lookback_days={lookback_days} and interval="{interval}".
+        
+        The tool result contains a "summary" object with the period high/low, the latest
+        close, and percentage moves already computed exactly. ALWAYS take these figures
+        from "summary" — never re-derive them by scanning the "candles" array yourself.
+        Use "candles" only for describing shape and sequence (trend, consolidation,
+        where volume clustered).
+        
+        Note that a period high or low is the extreme of the intraday wick (the "high"
+        and "low" fields), not a candle's closing price. Say which you mean if you cite
+        a close instead.
+        
+        Keep your analysis grounded in the actual data returned. Be specific with prices, percentages, and timeframes."""
 
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_message},
     ]
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"User: {user_message}")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     while True:
         response = client.chat.completions.create(
